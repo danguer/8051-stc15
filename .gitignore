@@ -1,3 +1,15 @@
+# sdcc
+*.asm
+*.bin
+*.hex
+*.ihx
+*.lk
+*.lst
+*.mem
+*.rel
+*.rst
+*.sym
+
 # Prerequisites
 *.d
 
