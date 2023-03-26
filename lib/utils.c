@@ -1,7 +1,15 @@
-#include "../../lib/stc15.h"
+#include "utils.h"
+static unsigned long _oscillator = 0;
 
-#define FOSC 11059200L
+void set_oscillator(unsigned long oscillator)
+{
+    _oscillator = oscillator;
+}
 
+unsigned long get_oscillator()
+{
+    return _oscillator;
+}
 
 void run_timer_cycle(unsigned int cycle)
 {
@@ -30,7 +38,7 @@ void delay(unsigned int milliseconds)
     // will give the number of cycles to run per millisecond
     // 12000 = 12 cycles * 1000us
 
-    unsigned long total_cycles_counter = FOSC/12000 * milliseconds;
+    unsigned long total_cycles_counter = _oscillator/12000 * milliseconds;
 
     unsigned int total_cycles = total_cycles_counter >> 16;
     unsigned int remain_cycles = 0xFFFF - (total_cycles_counter & 0xFFFF);
@@ -43,16 +51,5 @@ void delay(unsigned int milliseconds)
     // check if run partial cycle
     if (remain_cycles > 0) {
         run_timer_cycle(remain_cycles);
-    }
-}
-
-void main(void)
-{
-    while(1)
-    {
-         P1 = 0x00; // LED on
-         delay(100);
-         P1 = 0xFF; // LED off
-         delay(100);
     }
 }

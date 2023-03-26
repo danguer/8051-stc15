@@ -13,7 +13,7 @@ void delay_1second(void)
         i--;
     }
 }
- 
+
 void main(void)
 {
     while(1)
@@ -26,4 +26,3 @@ void main(void)
         delay_1second();
     }
 }
- 
