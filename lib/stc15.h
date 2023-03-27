@@ -102,6 +102,16 @@ __sfr __at (0x9C) BRT;
  */
 __sfr __at (0x9D) P1ASF;
 
+/* flags */
+#define P17ASF 0x80
+#define P16ASF 0x40
+#define P15ASF 0x20
+#define P14ASF 0x10
+#define P13ASF 0x08
+#define P12ASF 0x04
+#define P11ASF 0x02
+#define P10ASF 0x01
+
 /*
  * Bus-Speed Control
  *   Bit Mapping: - - - - - - EXRTS[1:0]
@@ -184,6 +194,26 @@ __sfr __at (0xBA) P_SW2;
  *   Reset Value: 0000,0000
  */
 __sfr __at (0xBC) ADC_CONTR;
+
+/* flags */
+#define ADC_POWER 0x80
+#define SPEED1    0x40
+#define SPEED0    0x20
+#define ADC_FLAG  0x10
+#define ADC_START 0x08
+#define CHS2      0x04
+#define CHS1      0x02
+#define CHS0      0x01
+
+/* this is just a flag to easier the conversion */
+#define CHS_P1_0 0x00
+#define CHS_P1_1 0x01
+#define CHS_P1_2 0x02
+#define CHS_P1_3 0x03
+#define CHS_P1_4 0x04
+#define CHS_P1_5 0x05
+#define CHS_P1_6 0x06
+#define CHS_P1_7 0x07
 
 /*
  * ADC Result
