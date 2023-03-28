@@ -53,3 +53,44 @@ void delay(unsigned int milliseconds)
         run_timer_cycle(remain_cycles);
     }
 }
+
+/* port must be 0-7 */
+unsigned int analog_read(unsigned char port)
+{
+    return analog_read_speed(port, 0x00);
+}
+
+/* speed must be b00 - b11 */
+unsigned int analog_read_speed(unsigned char port, unsigned char speed)
+{
+    unsigned int adc_value;
+
+    /* value from 0-7 or b000 - b111 */
+    unsigned char bits_port = port;
+    P1ASF = 0x01 << port;
+
+    // reset speed, bitmask = ~(b0110,0000) = b11001,1111
+    ADC_CONTR &= ~(0x60);
+
+    // set other values
+    ADC_CONTR = ADC_POWER | ADC_START | bits_port | (speed << 5);
+
+    // documentation says it needs four nops
+    __asm
+    nop
+    nop
+    nop
+    nop
+    __endasm;
+
+    // wait until flag is ready
+    while (!(ADC_CONTR & ADC_FLAG));
+
+    // calculate the value
+    adc_value = (ADC_RES << 2) | (ADC_RESL & 0x3);
+
+    // reset the flag
+    ADC_CONTR &= ~ADC_FLAG;
+
+    return adc_value;
+}

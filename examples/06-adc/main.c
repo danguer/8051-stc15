@@ -19,6 +19,14 @@ void main()
         // power the adc, start the capturing for channel P1_1
         ADC_CONTR = ADC_POWER | ADC_START | CHS_P1_1;
 
+        // documentation says it needs four nops
+        __asm
+        nop
+        nop
+        nop
+        nop
+        __endasm;
+
         // wait until flag is ready
         while (!(ADC_CONTR & ADC_FLAG));
 
